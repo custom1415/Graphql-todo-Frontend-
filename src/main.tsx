@@ -11,10 +11,11 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 
 const link = createHttpLink({
-  uri: `${process.env.GRAPHQL_URI}`,
+  uri: import.meta.env.VITE_GRAPHQL_URI,
   credentials: "include",
 });
 
+console.log(process.env.GRAPHQL_URI, import.meta.env.VITE_GRAPHQL_URI);
 const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
