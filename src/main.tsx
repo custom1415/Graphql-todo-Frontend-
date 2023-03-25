@@ -1,18 +1,31 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+} from "@apollo/client";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
+
+const link = createHttpLink({
+  uri: "http://localhost:4000/graphql",
+  credentials: "include",
+});
+
 const client = new ApolloClient({
+  link,
   cache: new InMemoryCache(),
-  uri: `https://graphql-todo-backend-production.up.railway.app/`,
 });
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

@@ -3,18 +3,28 @@ import { gql, useQuery } from "@apollo/client";
 import SingleTodo from "./SingleTodo";
 import Input from "./Input";
 import DateComponent from "./Date";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
+import { useUserStore } from "../zustand/userStore";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 type Todo = {
   title: string;
   completed: boolean;
   _id: string;
 };
 function Card() {
+  const user = useUserStore((state) => state.user);
+
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (!user.username) navigate("/");
+  // }, []);
+
   const [isInputHidden, setIsInputHidden] = useState(true);
   const QUERY_TODOS = gql`
-    query ($userId: ID!) {
-      todos(userId: $userId) {
+    query ($email: String!) {
+      todos(email: $email) {
         todos {
           title
           _id
@@ -26,19 +36,17 @@ function Card() {
   `;
   const { data, loading, refetch } = useQuery(QUERY_TODOS, {
     variables: {
-      userId: "Saroj",
+      email: user.email,
     },
+    onCompleted: (data) => console.log(data),
   });
-  const toggleInputHidden = () => {
-    console.log(isInputHidden);
 
+  const toggleInputHidden = () => {
     setIsInputHidden(!isInputHidden);
   };
 
   return (
-    <div className="w-[400px] h-[500px] relative overflow-scroll shadow border flex flex-col  ">
-      <ToastContainer position="top-center" />
-
+    <div className="w-[400px] rounded-xl h-[500px] relative overflow-scroll shadow  flex flex-col  ">
       {isInputHidden ? (
         <DateComponent
           todosCount={data?.todos?.todosCount}
@@ -61,7 +69,9 @@ function Card() {
           );
         })
       ) : (
-        <h1 className="text-center m-4">Fetching</h1>
+        <div className="grid place-items-center pt-12">
+        <AiOutlineLoading3Quarters className="animate-spin text-5xl" />
+        </div>
       )}
       {data?.todos?.todos && !data.todos.todos.length && (
         <h1 className="text-center my-8 text-2xl">Your Todo-list is Empty!</h1>

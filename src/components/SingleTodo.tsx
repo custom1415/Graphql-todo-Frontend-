@@ -87,7 +87,7 @@ function SingleTodo({ id, title, completed, refetch }: Props) {
           <HiCheckCircle
             className={`text-xl  cursor-pointer ${
               completed ? "text-blue-600" : "text-gray-300"
-            } group-hover/check:text-blue-200`}
+            } `}
           />
         </div>
       </div>

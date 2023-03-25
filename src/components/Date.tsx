@@ -11,7 +11,7 @@ const DateComponent = ({ todosCount, toggleInputHidden }: Props) => {
   const weekDay = new Intl.DateTimeFormat("en-US", { month: "short" }).format();
   const year = date.getFullYear();
   return (
-    <div className="sticky top-0 left-0 z-50 flex items-center max-h-24 justify-between p-8 bg-blue-500 text-white">
+    <div className="sticky top-0 left-0 z-50 flex items-center max-h-24 justify-between p-8 shadow bg-blue-500 text-white">
       <div className="flex items-center gap-2 ">
         <h1 className="text-4xl">{dayOfTheMonth}</h1>
         <div>
