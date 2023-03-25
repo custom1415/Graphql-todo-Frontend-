@@ -11,7 +11,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 
 const link = createHttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: `${process.env.GRAPHQL_URI}`,
   credentials: "include",
 });
 
